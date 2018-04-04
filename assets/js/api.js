@@ -43,7 +43,55 @@ class TheServer {
       },
     });
   }
+
+  submit_login(data) {
+    $.ajax("/api/v1/token", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify(data),
+      success: (resp) => {
+        store.dispatch({
+          type: 'SET_TOKEN',
+          token: resp,
+        });
+      },
+    });
+  }
+
+  submit_user(data) {
+    $.ajax("/api/v1/users", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({ token: data.token, user: data }),
+      success: (resp) => {
+        store.dispatch({
+          type: 'ADD_USER',
+          user: resp.data,
+        });
+      },
+    });
+  }
+
+  edit_task(data,id) {
+    $.ajax("/api/v1/tasks/"+id, {
+      method: "put",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({ token: data.token, task: data }),
+      success: (resp) => {
+        store.dispatch({
+          type: 'EDIT_TASK',
+          task: resp.data,
+        });
+      },
+    });
+    this.request_tasks();
+  }
 }
+
+
 
 export default new TheServer();
 
