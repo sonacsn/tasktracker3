@@ -7,6 +7,8 @@ import Nav from './nav';
 import TaskForm from './task-form';
 import Users from './users';
 import Feed from './feed';
+import UserForm from './user-form';
+import EditTask from './edit-form';
 
 export default function tasktracker_init(store) {
   ReactDOM.render(
@@ -45,12 +47,19 @@ export default function tasktracker_init(store) {
 	    </div>
           } />
           <Route path="/users" exact={true} render={() =>
-            <Users users={props.users} />
+	    <div>
+	      <UserForm />
+              <Users users={props.users} />
+	    </div>
           } />
           <Route path="/users/:user_id" render={({match}) =>
             <Feed tasks={_.filter(props.tasks, (pp) =>
               match.params.user_id == pp.user.id )
             } />
+          } /> 
+        <Route path="/tasks/:task_id" render={({match}) =>
+	  <EditTask users={props.users} task={_.filter(props.tasks, (pp) =>
+			match.params.task_id == pp.id)} />
           } />
         </div>
       </Router>

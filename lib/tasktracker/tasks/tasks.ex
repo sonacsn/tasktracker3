@@ -70,6 +70,9 @@ defmodule Tasktracker.Tasks do
 
   """
   def update_task(%Task{} = task, attrs) do
+    IO.inspect "IN task.ex update"
+    IO.inspect attrs
+    IO.inspect task
     task
     |> Task.changeset(attrs)
     |> Repo.update()
