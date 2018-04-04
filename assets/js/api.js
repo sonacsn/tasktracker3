@@ -87,7 +87,6 @@ class TheServer {
         });
       },
     });
-    this.request_tasks();
   }
 }
 

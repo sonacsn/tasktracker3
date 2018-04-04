@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import api from '../api';
 
 function EditTask(params) {
@@ -21,21 +22,17 @@ function EditTask(params) {
     console.log("Should create post.");
     console.log(params.task_form);
     api.edit_task(params.task_form, params.task[0].id);
+    api.request_tasks(); 
   }
 
-  function populate_form(task) {
-  //  params.task_form.user_id = task.user.id;
-  //  params.task_form.completed = task.completed;
-    params.task_form.description = task.description;
-    params.task_form.title = task.title;
-    params.task_form.duration = task.duration;
-}
-
-
-
   if(params.task.length != 0){
+  let action = {
+      type: 'UPDATE_FORM',
+      data: task,
+    };
+    console.log(action);
+    params.dispatch(action);
   let task = params.task[0];
-  //populate_form(task);
   let users_l = _.map(params.users, function(uu,key){ 
 		if(uu.id==task.user.id) 
 			return (<option key={uu.id} value={uu.id}>{uu.name}</option>);
@@ -66,7 +63,7 @@ function EditTask(params) {
       <Label for="duration">Description</Label>
       <Input type="text" name="duration" value={params.task_form.duration} onChange={update} />
     </FormGroup>
-    <Button onClick={submit} color="primary">Create</Button>
+    <Link to="/"  onClick={submit} className="btn btn-primary">Create</Link>
   </div>;
 }
 else
