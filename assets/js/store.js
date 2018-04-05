@@ -44,14 +44,27 @@ let empty_form = {
   title: "",
   description: "",
   duration: 0,
-  completed: false
+  completed: false,
+  token: ""
 };
+
+let another_empty_form = {
+  user_id: "",
+  title: "",
+  description: "",
+  duration: 0,
+  completed: false
+}
 
 function task_form(state = empty_form, action) {
   switch (action.type) {
     case 'UPDATE_FORM':
       return Object.assign({}, state, action.data);
     case 'CLEAR_FORM':
+      return Object.assign({}, state, another_empty_form);
+    case 'SET_TOKEN':
+      return Object.assign({}, state, action.token);
+    case 'RESET_TOKEN':
       return empty_form;
     default:
       return state;
@@ -93,6 +106,8 @@ function user_form(state=empty_user_form, action) {
   switch (action.type) {
     case 'UPDATE_USER_FORM':
       return Object.assign({}, state, action.data);
+    case 'CLEAR_USER_FORM':
+      return empty_user_form;
     default:
       return state;
   }

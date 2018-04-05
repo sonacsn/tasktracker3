@@ -109,6 +109,7 @@ class TheServer {
         });
       },
     });
+   this.request_tasks();
   }
 
   edit_task(data,id) {

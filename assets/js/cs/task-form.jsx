@@ -4,7 +4,6 @@ import { Button, FormGroup, Label, Input } from 'reactstrap';
 import api from '../api';
 
 function TaskForm(params) {
-  var checked = false;
   function update(ev) {
     let tgt = $(ev.target);
 
@@ -28,7 +27,6 @@ function TaskForm(params) {
     api.submit_task(params.task_form);
     clear("");
   }
-
 
   let users_l = _.map(params.users, (uu,key) => <option key={uu.id} value={uu.id}>{uu.name}</option>);
   let users = _.union([<option key="" value="">Select a user</option>], users_l)

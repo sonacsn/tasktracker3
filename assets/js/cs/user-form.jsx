@@ -21,6 +21,13 @@ function UserForm(params) {
     console.log("Should create user.");
     console.log(params.user_form);
     api.submit_user(params.user_form);
+    clear("");
+  }
+
+  function clear(ev) {
+    params.dispatch({
+      type: 'CLEAR_USER_FORM',
+    });
   }
 
   return <div style={ {padding: "4ex"} }>
@@ -38,6 +45,7 @@ function UserForm(params) {
       <Input type="password" name="password" value={params.user_form.password} onChange={update} />
     </FormGroup>
     <Button onClick={submit} color="primary">Create</Button>
+    <Button onClick={clear} >Clear</Button>
   </div>;
 }
 

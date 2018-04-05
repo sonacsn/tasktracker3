@@ -10,9 +10,8 @@ export default function Task(params) {
     //data = _.omit(params.task, 'completed');
     //task['completed'] = !params.task.completed;
     data['completed'] = !params.task.completed;
-    console.log(data);
     api.toggle_complete(data, task.id);
-    api.request_tasks();
+//    api.request_tasks();
   }
 
   function CompleteTask(){

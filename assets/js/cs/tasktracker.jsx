@@ -36,6 +36,8 @@ export default function tasktracker_init(store) {
 //  }
 
   let Tasktracker = connect((state) => state)((props) => {
+
+   if(props.task_form.token!=null && props.task_form.token!=""){
     return (
       <Router>
         <div>
@@ -64,4 +66,13 @@ export default function tasktracker_init(store) {
         </div>
       </Router>
     );
+  }
+  else {
+     return ( <Router>
+     		<div>
+      		  <Nav />
+      		  <UserForm />
+     		</div>
+   	     </Router>);
+  }
   });
