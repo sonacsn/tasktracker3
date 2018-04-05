@@ -14,7 +14,19 @@ function EditTask(params) {
       type: 'UPDATE_FORM',
       data: data,
     };
-    console.log(action);
+    console.log("data update", data);
+    params.dispatch(action);
+  }
+  
+  function populate_form(task) {
+    let tgt = task;
+    let data = _.omit(task,'user');
+    data['user_id'] = task.user.id;
+    console.log("data to be populated", data);
+    let action = {
+      type: 'UPDATE_FORM',
+      data: data,
+    };
     params.dispatch(action);
   }
 
@@ -22,21 +34,18 @@ function EditTask(params) {
     console.log("Should create post.");
     console.log(params.task_form);
     api.edit_task(params.task_form, params.task[0].id);
+    params.dispatch({
+      type: 'CLEAR_FORM',
+    });
     api.request_tasks(); 
   }
 
   if(params.task.length != 0){
-  let action = {
-      type: 'UPDATE_FORM',
-      data: task,
-    };
-    console.log(action);
-    params.dispatch(action);
   let task = params.task[0];
-  let users_l = _.map(params.users, function(uu,key){ 
-		if(uu.id==task.user.id) 
-			return (<option key={uu.id} value={uu.id}>{uu.name}</option>);
-		else
+  if(task && params.task_form.title==""){
+    populate_form(task);
+  }
+    let users_l = _.map(params.users, function(uu,key){ 
 			return (<option key={uu.id} value={uu.id}>{uu.name}</option>);
 		});
 
@@ -65,8 +74,8 @@ function EditTask(params) {
     </FormGroup>
     <Link to="/"  onClick={submit} className="btn btn-primary">Create</Link>
   </div>;
+
 }
-else
   return <div></div>;
 }
 

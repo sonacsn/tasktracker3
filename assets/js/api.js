@@ -41,6 +41,12 @@ class TheServer {
           task: resp.data,
         });
       },
+     error: (msg) => {
+	store.dispatch({
+		type: 'SET_TASK_ERROR',
+		error: msg,
+	});
+      }
     });
   }
 
@@ -59,7 +65,23 @@ class TheServer {
     });
   }
 
-  submit_user(data) {
+  submit_logout() {
+    console.log("in api");
+    $.ajax("/api/v1/token", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({}),
+      success: (resp) => {
+        store.dispatch({
+          type: 'RESET_TOKEN',
+          token: resp,
+        });
+      },
+    });
+  }
+
+ submit_user(data) {
     $.ajax("/api/v1/users", {
       method: "post",
       dataType: "json",
@@ -69,6 +91,21 @@ class TheServer {
         store.dispatch({
           type: 'ADD_USER',
           user: resp.data,
+        });
+      },
+    });
+  }
+
+  toggle_complete(data, id) {
+    $.ajax("/api/v1/tasks/"+id, {
+      method: "put",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({ token: data.token, task: data }),
+      success: (resp) => {
+        store.dispatch({
+          type: 'EDIT_TASK',
+          task: resp.data,
         });
       },
     });
@@ -87,6 +124,18 @@ class TheServer {
         });
       },
     });
+  }
+
+  delete_task(id) {
+    $.ajax("/api/v1/tasks/"+id, {
+      method: "delete",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      success: (resp) => {
+	console.log("Task has been deleted");
+      },
+    });
+    this.request_tasks();
   }
 }
 

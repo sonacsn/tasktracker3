@@ -4,6 +4,7 @@ import { Button, FormGroup, Label, Input } from 'reactstrap';
 import api from '../api';
 
 function TaskForm(params) {
+  var checked = false;
   function update(ev) {
     let tgt = $(ev.target);
 
@@ -17,11 +18,17 @@ function TaskForm(params) {
     params.dispatch(action);
   }
 
-  function submit(ev) {
-    console.log("Should create post.");
-    console.log(params.task_form);
-    api.submit_task(params.task_form);
+  function clear(ev) {
+    params.dispatch({
+      type: 'CLEAR_FORM',
+    });
   }
+
+  function submit(ev) {
+    api.submit_task(params.task_form);
+    clear("");
+  }
+
 
   let users_l = _.map(params.users, (uu,key) => <option key={uu.id} value={uu.id}>{uu.name}</option>);
   let users = _.union([<option key="" value="">Select a user</option>], users_l)
@@ -45,9 +52,10 @@ function TaskForm(params) {
     </FormGroup>
     <FormGroup>
       <Label for="duration">Description</Label>
-      <Input type="text" name="duration" value={params.task_form.duration} onChange={update} />
+      <Input type="number" min="0" step="15" name="duration" value={params.task_form.duration} onChange={update} />
     </FormGroup>
     <Button onClick={submit} color="primary">Create</Button>
+    <Button onClick={clear}>Clear</Button>
   </div>;
 }
 

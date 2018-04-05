@@ -48,10 +48,11 @@ let empty_form = {
 };
 
 function task_form(state = empty_form, action) {
-  console.log("in store task_form", state);
   switch (action.type) {
     case 'UPDATE_FORM':
       return Object.assign({}, state, action.data);
+    case 'CLEAR_FORM':
+      return empty_form;
     default:
       return state;
   }
